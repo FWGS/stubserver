@@ -18,6 +18,7 @@ GNU General Public License for more details.
 #include "sdk_types.h"
 #include "sdk_svapi.h"
 #include "sdk_engapi.h"
+#include "sdk_defines.h"
 
 typedef struct entvars_s
 {
@@ -34,10 +35,10 @@ typedef struct entvars_s
     int viewmodel, weaponmodel;
     vec3_t absmin, absmax, mins, maxs, size;
     float ltime, nextthink;
-    int movetype, solid, sin, body, effects;
+    int movetype, solid, skin, body, effects;
     float gravity, friction;
     int light_level, sequence, gaitsequence;
-    float frame, animtime, frametyme;
+    float frame, animtime, framerate;
     byte controller[4], blending[2];
     float scale;
     int rendermode;
@@ -118,7 +119,7 @@ typedef struct keyvalue_s
 
 typedef struct entity_state_s
 {
-    int type, number;
+    int entityType, number;
     float msgtime;
     int msgnum;
     vec3_t origin, angles;
@@ -134,7 +135,7 @@ typedef struct entity_state_s
     rgb_t rendercolor;
     int renderfx;
     int movetype;
-    float animtime, frametime;
+    float animtime, framerate;
     int body;
     byte contoller[4];
     byte blending[4];
@@ -182,6 +183,22 @@ typedef struct common_s
 } common_t;
 
 extern common_t com;
+
+
+// Use this instead of ALLOC_STRING on constant strings
+#define STRING(offset)		(const char *)(com.globals->pStringBase + (int)offset)
+#if !defined XASH_64BIT || defined(CLIENT_DLL)
+#define MAKE_STRING(str)	((int)(long int)str - (int)(long int)STRING(0))
+#else
+static inline int MAKE_STRING(const char *szValue)
+{
+    long long ptrdiff = szValue - STRING(0);
+    if( ptrdiff > INT_MAX || ptrdiff < INT_MIN )
+        return com.engfuncs->AllocEngineString( szValue );
+    else
+        return (int)ptrdiff;
+}
+#endif
 
 #endif // SDK_COMMON_H
 

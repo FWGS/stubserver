@@ -49,6 +49,7 @@ void PM_Init( void* pm )
 void RegisterEncoders( void )
 {
 
+
 }
 
 void ParmsNewLevel( void )
@@ -96,9 +97,10 @@ void StartFrame( void )
 
 }
 
-void Think( edict_t e )
+void Think( edict_t *e )
 {
 
+    com.engfuncs->AlertMessage( AT_CONSOLE, "Think %d\n", STRING(e->v.classname));
 }
 
 qboolean ClientConnect( edict_t *ent, char *name, char *address, char *rej )
@@ -115,10 +117,11 @@ void ClientUserInfoChanged( edict_t *client, char *info )
 {
 
 }
+extern void player(entvars_t *pev);
 
 void ClientPutinServer( edict_t *e )
 {
-
+    player(&e->v);
 }
 
 void PlayerPreThink( edict_t *e)
@@ -169,7 +172,36 @@ void SetupVisibility( edict_t view, edict_t *p, byte **pvs, byte **phs)
 
 qboolean AddToFullPack( entity_state_t *state, int e, edict_t *ent, edict_t *host, int hostflags, int player, byte *set )
 {
-    return false;
+    memset( state, 0, sizeof( *state ) );
+    memcpy( state->origin, ent->v.origin, 3 * sizeof( float ) );
+    memcpy( state->angles, ent->v.angles, 3 * sizeof( float ) );
+    memcpy( state->mins, ent->v.mins, 3 * sizeof( float ) );
+    memcpy( state->maxs, ent->v.maxs, 3 * sizeof( float ) );
+
+    memcpy( state->startpos, ent->v.startpos, 3 * sizeof( float ) );
+    memcpy( state->endpos, ent->v.endpos, 3 * sizeof( float ) );
+    memcpy( state->velocity, ent->v.velocity, 3 * sizeof( float ) );
+
+    state->number	  = e;
+    state->entityType = 1;
+    state->impacttime = ent->v.impacttime;
+    state->starttime = ent->v.starttime;
+
+    state->modelindex = ent->v.modelindex;
+
+    state->frame      = ent->v.frame;
+
+    state->skin       = ent->v.skin;
+    state->effects    = ent->v.effects;
+    state->scale	  = ent->v.scale;
+    state->solid	  = ent->v.solid;
+    state->colormap   = ent->v.colormap;
+
+    state->movetype   = ent->v.movetype;
+    state->sequence   = ent->v.sequence;
+    state->framerate  = ent->v.framerate;
+    state->body       = ent->v.body;
+    return true;
 }
 
 void ClientCommand( edict_t *cl )
