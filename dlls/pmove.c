@@ -393,6 +393,27 @@ qboolean PM_AddToTouched( pmtrace_t tr, vec3_t impactvelocity )
     return true;
 }
 
+
+void PM_NoClip( void)
+{
+    int i;
+    vec3_t wishvel;
+    float fmove, smove;
+
+    fmove = pmove->cmd.forwardmove;
+    smove = pmove->cmd.sidemove;
+
+    VectorNormalize( forward );
+    VectorNormalize( right );
+
+    for( i = 0; i < 3; i++ )
+    {
+        wishvel[i] = forward[i] * fmove + right[i] * smove;
+    }
+    wishvel[2] += pmove->cmd.upmove;
+    VectorMA (pmove->origin, frametime, wishvel, pmove->origin );
+}
+
 /*
 ============
 PM_FlyMove
@@ -1198,6 +1219,12 @@ void PM_Move (struct playermove_s *ppmove, qboolean server)
         pmove->oldbuttons &= ~BUTTON_JUMP;
 
 	PM_Friction ();
+
+    if( pmove->movetype == MOVETYPE_NOCLIP )
+    {
+        PM_NoClip();
+        return;
+    }
 
 	if (waterlevel >= 2)
 		PM_WaterMove ();
