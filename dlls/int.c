@@ -41,11 +41,14 @@ qboolean GetHullBounds( int hullnumber, float *mins, float *maxs )
     return true;
 }
 
+void PM_Init (struct playermove_s *ppmove);
+
+/*
 void PM_Init( void* pm )
 {
 
 }
-
+*/
 void RegisterEncoders( void )
 {
 
@@ -128,12 +131,14 @@ void PlayerPreThink( edict_t *e)
 {
 
 }
+void PM_Move (struct playermove_s *ppmove, qboolean server);
 
+/*
 void PM_Move( void*pm, qboolean server )
 {
 
 }
-
+*/
 void PlayerPostThink( edict_t *player )
 {
 }

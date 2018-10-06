@@ -23,11 +23,14 @@ void grenade( entvars_t *vars )
     t->pev->flags = 0;
     com.engfuncs->SetModel( vars->pContainingEntity, "models/grenade.mdl");
     t->pev->classname = MAKE_STRING( "grenade" );
-    com.engfuncs->SetView(t->pev->pContainingEntity, t->pev->pContainingEntity);
+   // com.engfuncs->PEntityOfEntIndex(1)
+    com.engfuncs->SetView(com.engfuncs->PEntityOfEntIndex(1), t->pev->pContainingEntity);
+    //com.engfuncs->SetView(t->pev->pContainingEntity, t->pev->pContainingEntity);
     com.engfuncs->SetOrigin(t->pev->pContainingEntity,t->pev->origin);
     t->pev->health = 100;
     t->pev->armorvalue = 0;
     t->pev->takedamage = DAMAGE_YES;
     t->pev->solid = SOLID_SLIDEBOX;
     t->pev->movetype = MOVETYPE_NOCLIP;
+    t->pev->avelocity[2] = -10;
 }

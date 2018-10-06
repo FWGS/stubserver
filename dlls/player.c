@@ -22,7 +22,7 @@ void player( entvars_t *vars )
     t->pev->flags |= FL_CLIENT;
     com.engfuncs->SetModel( vars->pContainingEntity, "models/player.mdl");
     t->pev->classname = MAKE_STRING( "player" );
-    com.engfuncs->SetView(t->pev->pContainingEntity, t->pev->pContainingEntity);
+   // com.engfuncs->SetView(t->pev->pContainingEntity, t->pev->pContainingEntity);
     vec3_t origin = {0,0,0};
     com.engfuncs->SetOrigin(t->pev->pContainingEntity,origin);
     t->pev->health = 100;
