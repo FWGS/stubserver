@@ -240,7 +240,7 @@ typedef struct
     struct msurface_s	*(*PM_TraceSurface)( int ground, float *vstart, float *vend );
 } playermove_t;
 
-typedef struct {
+typedef struct movevars_s {
     float	gravity;
     float	stopspeed;
     float	maxspeed;
@@ -278,7 +278,6 @@ typedef struct {
 } movevars_t;
 
 
-extern	movevars_t		movevars;
 extern	playermove_t	*pmove;
 extern	int		onground;
 extern	int		waterlevel;
@@ -641,7 +640,7 @@ void PM_Friction (void)
 		return;
 	}
 
-	friction = movevars.friction;
+    friction = pmove->movevars->friction;
 
 // if the leading edge is over a dropoff, increase friction
 	if (onground != -1) {
@@ -660,10 +659,10 @@ void PM_Friction (void)
 	drop = 0;
 
 	if (waterlevel >= 2) // apply water friction
-		drop += speed*movevars.waterfriction*waterlevel*frametime;
+        drop += speed*pmove->movevars->waterfriction*waterlevel*frametime;
 	else if (onground != -1) // apply ground friction
 	{
-		control = speed < movevars.stopspeed ? movevars.stopspeed : speed;
+        control = speed < pmove->movevars->stopspeed ? pmove->movevars->stopspeed : speed;
 		drop += control*friction*frametime;
 	}
 
@@ -762,10 +761,10 @@ void PM_WaterMove (void)
 	VectorCopy (wishvel, wishdir);
 	wishspeed = VectorNormalize(wishdir);
 
-	if (wishspeed > movevars.maxspeed)
+    if (wishspeed > pmove->movevars->maxspeed)
 	{
-		VectorScale (wishvel, movevars.maxspeed/wishspeed, wishvel);
-		wishspeed = movevars.maxspeed;
+        VectorScale (wishvel, pmove->movevars->maxspeed/wishspeed, wishvel);
+        wishspeed = pmove->movevars->maxspeed;
 	}
 	wishspeed *= 0.7;
 
@@ -774,7 +773,7 @@ void PM_WaterMove (void)
 //
 //	if (pmove->waterjumptime)
 //		Con_Printf ("wm->%f, %f, %f\n", pmove->velocity[0], pmove->velocity[1], pmove->velocity[2]);
-	PM_Accelerate (wishdir, wishspeed, movevars.wateraccelerate);
+    PM_Accelerate (wishdir, wishspeed, pmove->movevars->wateraccelerate);
 
 // assume it is a stair or a slope, so press down from stepheight above
     VectorMA (pmove->origin, frametime, pmove->velocity, dest);
@@ -809,12 +808,15 @@ void PM_AirMove (void)
 
     fmove = pmove->cmd.forwardmove;
     smove = pmove->cmd.sidemove;
-    movevars.maxspeed = 1000;
-    movevars.maxvelocity = 1000;
-    movevars.gravity = 800;
-    movevars.accelerate = 1000;
-    movevars.accelerate = 1000;
-    movevars.bounce = 1;
+   /* pmove->movevars->maxspeed = 1000;
+    pmove->movevars->maxvelocity = 1000;
+    pmove->movevars->gravity = 800;
+    pmove->movevars->accelerate = 1000;
+    pmove->movevars->accelerate = 1000;
+    pmove->movevars->entgravity = 1;
+    pmove->movevars->bounce = 1;*/
+    pmove->movevars->entgravity = 1;
+
 	
 	forward[2] = 0;
 	right[2] = 0;
@@ -831,10 +833,10 @@ void PM_AirMove (void)
 //
 // clamp to server defined max speed
 //
-	if (wishspeed > movevars.maxspeed)
+    if (wishspeed > pmove->movevars->maxspeed)
 	{
-		VectorScale (wishvel, movevars.maxspeed/wishspeed, wishvel);
-		wishspeed = movevars.maxspeed;
+        VectorScale (wishvel, pmove->movevars->maxspeed/wishspeed, wishvel);
+        wishspeed = pmove->movevars->maxspeed;
 	}
 	
 //	if (pmove->waterjumptime)
@@ -843,16 +845,16 @@ void PM_AirMove (void)
 	if ( onground != -1)
 	{
         pmove->velocity[2] = 0;
-		PM_Accelerate (wishdir, wishspeed, movevars.accelerate);
-        pmove->velocity[2] -= movevars.entgravity * movevars.gravity * frametime;
+        PM_Accelerate (wishdir, wishspeed, pmove->movevars->accelerate);
+        pmove->velocity[2] -= pmove->movevars->entgravity * pmove->movevars->gravity * frametime;
 		PM_GroundMove ();
 	}
 	else
 	{	// not on ground, so little effect on velocity
-		PM_AirAccelerate (wishdir, wishspeed, movevars.accelerate);
+        PM_AirAccelerate (wishdir, wishspeed, pmove->movevars->accelerate);
 
 		// add gravity
-        pmove->velocity[2] -= movevars.entgravity * movevars.gravity * frametime;
+        pmove->velocity[2] -= pmove->movevars->entgravity * pmove->movevars->gravity * frametime;
 
 		PM_FlyMove ();
 
@@ -1100,8 +1102,8 @@ void SpectatorMove (void)
 	{
 		drop = 0;
 
-		friction = movevars.friction*1.5;	// extra friction
-		control = speed < movevars.stopspeed ? movevars.stopspeed : speed;
+        friction = pmove->movevars->friction*1.5;	// extra friction
+        control = speed < pmove->movevars->stopspeed ? pmove->movevars->stopspeed : speed;
 		drop += control*friction*frametime;
 
 		// scale the velocity
@@ -1130,17 +1132,17 @@ void SpectatorMove (void)
 	//
 	// clamp to server defined max speed
 	//
-	if (wishspeed > movevars.spectatormaxspeed)
+    if (wishspeed > pmove->movevars->spectatormaxspeed)
 	{
-		VectorScale (wishvel, movevars.spectatormaxspeed/wishspeed, wishvel);
-		wishspeed = movevars.spectatormaxspeed;
+        VectorScale (wishvel, pmove->movevars->spectatormaxspeed/wishspeed, wishvel);
+        wishspeed = pmove->movevars->spectatormaxspeed;
 	}
 
     currentspeed = DotProduct(pmove->velocity, wishdir);
 	addspeed = wishspeed - currentspeed;
 	if (addspeed <= 0)
 		return;
-	accelspeed = movevars.accelerate*frametime*wishspeed;
+    accelspeed = pmove->movevars->accelerate*frametime*wishspeed;
 	if (accelspeed > addspeed)
 		accelspeed = addspeed;
 	

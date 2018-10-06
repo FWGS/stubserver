@@ -103,7 +103,12 @@ void StartFrame( void )
 void Think( edict_t *e )
 {
 
-    com.engfuncs->AlertMessage( AT_CONSOLE, "Think %d\n", STRING(e->v.classname));
+    com.engfuncs->AlertMessage( AT_CONSOLE, "Think %s\n", STRING(e->v.classname));
+}
+
+void Touch( edict_t *e1, edict_t *e2 )
+{
+    com.engfuncs->AlertMessage( AT_CONSOLE, "Touch %s %s\n", STRING(e1->v.classname), STRING(e2->v.classname));
 }
 
 qboolean ClientConnect( edict_t *ent, char *name, char *address, char *rej )
@@ -164,6 +169,7 @@ void UpdateClientData( edict_t *e, int sendweapons, struct clientdata_s *cd )
    cd->fov = pev->fov;
    cd->viewmodel = com.engfuncs->ModelIndex( STRING( pev->viewmodel ) );
    cd->health = pev->health;
+   VectorCopy( pev->view_ofs, cd->view_ofs );
 }
 
 qboolean AllowLagCompensation( void )
@@ -240,6 +246,7 @@ EXPORT void GetEntityAPI2( serverfuncs_t *serverfuncs, int *version )
     F(CreateInstancedBaselines);
     F(StartFrame);
     F(Think);
+    F(Touch);
     F(ClientConnect);
     F(SetAbsBox);
     F(ClientUserInfoChanged);

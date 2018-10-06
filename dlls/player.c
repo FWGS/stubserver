@@ -30,4 +30,5 @@ void player( entvars_t *vars )
     t->pev->takedamage = DAMAGE_AIM;
     t->pev->solid = SOLID_SLIDEBOX;
     t->pev->movetype = MOVETYPE_WALK;
+    t->pev->view_ofs[2] = 32;
 }
