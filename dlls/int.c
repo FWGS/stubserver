@@ -36,8 +36,8 @@ void GameInit( void )
 
 qboolean GetHullBounds( int hullnumber, float *mins, float *maxs )
 {
-    VectorClear(mins);
-    VectorClear(maxs);
+   // VectorClear(mins);
+   // VectorClear(maxs);
     return true;
 }
 

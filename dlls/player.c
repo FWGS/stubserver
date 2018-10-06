@@ -31,4 +31,9 @@ void player( entvars_t *vars )
     t->pev->solid = SOLID_SLIDEBOX;
     t->pev->movetype = MOVETYPE_WALK;
     t->pev->view_ofs[2] = 32;
+
+    vec3_t maxs = {16,16,32};
+    vec3_t mins = {-16,-16,-24};
+
+    com.engfuncs->SetSize(t->pev->pContainingEntity, mins, maxs );
 }
