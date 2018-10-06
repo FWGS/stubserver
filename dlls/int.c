@@ -80,7 +80,13 @@ void Spawn( edict_t *ent )
 {
 }
 
-void ServerActivate( edict_t *first, int num, int maxclients )
+//void ServerActivate( edict_t *first, int num, int maxclients )
+void ServerActivate( void )
+{
+
+}
+
+void ServerDectivate( void )
 {
 
 }
@@ -242,6 +248,7 @@ EXPORT void GetEntityAPI2( serverfuncs_t *serverfuncs, int *version )
     F(KeyValue);
     F(Spawn);
     F(ServerActivate);
+    F(ServerDectivate);
     F(CreateVaseline);
     F(CreateInstancedBaselines);
     F(StartFrame);
