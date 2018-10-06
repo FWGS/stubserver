@@ -113,7 +113,6 @@ typedef struct
     vec3_t		vuser4;
 } physent_t;
 
-#define MAX_PHYSINFO_STRING		256
 
 #define PM_NORMAL		0x00000000
 #define PM_STUDIO_IGNORE	0x00000001

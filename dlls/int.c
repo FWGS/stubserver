@@ -154,9 +154,16 @@ void CmdStart( edict_t *e, void *ucmd, int random )
 }
 
 
-void UpdateClientData( edict_t e, int sendweapons, void *cd )
+void UpdateClientData( edict_t *e, int sendweapons, struct clientdata_s *cd )
 {
-
+   entvars_t *pev = &e->v;
+   VectorCopy(pev->origin, cd->origin);
+   VectorCopy(pev->velocity, cd->velocity);
+   cd->flags = pev->flags;
+   cd->maxspeed = pev->maxspeed;
+   cd->fov = pev->fov;
+   cd->viewmodel = com.engfuncs->ModelIndex( STRING( pev->viewmodel ) );
+   cd->health = pev->health;
 }
 
 qboolean AllowLagCompensation( void )
