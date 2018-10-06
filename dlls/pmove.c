@@ -809,6 +809,12 @@ void PM_AirMove (void)
 
     fmove = pmove->cmd.forwardmove;
     smove = pmove->cmd.sidemove;
+    movevars.maxspeed = 1000;
+    movevars.maxvelocity = 1000;
+    movevars.gravity = 800;
+    movevars.accelerate = 1000;
+    movevars.accelerate = 1000;
+    movevars.bounce = 1;
 	
 	forward[2] = 0;
 	right[2] = 0;
