@@ -18,7 +18,7 @@ void grenade( entvars_t *vars )
         com.engfuncs->AlertMessage( AT_CONSOLE, "create %s %x %x\n", __FUNCTION__, vars, vars->pContainingEntity );
     }
 
-    t = vars->pContainingEntity->pvPrivateData = com.engfuncs->PvAllocEntPricateData( vars->pContainingEntity, sizeof( struct grenade ) );
+    t = vars->pContainingEntity->pvPrivateData = com.engfuncs->PvAllocEntPrivateData( vars->pContainingEntity, sizeof( struct grenade ) );
     t->pev = vars;
     t->pev->flags = 0;
     com.engfuncs->SetModel( vars->pContainingEntity, "models/grenade.mdl");
@@ -31,6 +31,6 @@ void grenade( entvars_t *vars )
     t->pev->armorvalue = 0;
     t->pev->takedamage = DAMAGE_YES;
     t->pev->solid = SOLID_SLIDEBOX;
-    t->pev->movetype = MOVETYPE_NOCLIP;
+    t->pev->movetype = MOVETYPE_BOUNCE;
     t->pev->avelocity[2] = -10;
 }

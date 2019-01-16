@@ -26,7 +26,7 @@ void worldspawn( entvars_t *vars )
     com.engfuncs->AlertMessage( AT_CONSOLE, "spawnfunc %s %x %x\n", __FUNCTION__, vars, vars->pContainingEntity );
 
 
-    t = vars->pContainingEntity->pvPrivateData = com.engfuncs->PvAllocEntPricateData( vars->pContainingEntity, sizeof( struct worldspawn ) );
+    t = vars->pContainingEntity->pvPrivateData = com.engfuncs->PvAllocEntPrivateData( vars->pContainingEntity, sizeof( struct worldspawn ) );
 	t->pev = vars;
     t->pev->classname = MAKE_STRING( "worldspawn" );
 }

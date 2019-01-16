@@ -17,7 +17,7 @@ void player( entvars_t *vars )
         com.engfuncs->AlertMessage( AT_CONSOLE, "create %s %x %x\n", __FUNCTION__, vars, vars->pContainingEntity );
     }
 
-    t = vars->pContainingEntity->pvPrivateData = com.engfuncs->PvAllocEntPricateData( vars->pContainingEntity, sizeof( struct player ) );
+    t = vars->pContainingEntity->pvPrivateData = com.engfuncs->PvAllocEntPrivateData( vars->pContainingEntity, sizeof( struct player ) );
     t->pev = vars;
     t->pev->flags |= FL_CLIENT;
     com.engfuncs->SetModel( vars->pContainingEntity, "models/player.mdl");
