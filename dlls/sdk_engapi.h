@@ -92,7 +92,7 @@ typedef struct engineapi_s
     void (*EngineFprintf)( void *file, char *format, ... );
 
     // private data funcs
-    void *(*PvAllocEntPricateData)( edict_t *e, size_t size );
+    void *(*PvAllocEntPrivateData)( edict_t *e, size_t size );
     void *(*PvEntPrivateData)( edict_t *e );
     void (*FreeEntPrivateData)( edict_t *e );
 
