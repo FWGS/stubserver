@@ -31,6 +31,6 @@ void grenade( entvars_t *vars )
     t->pev->armorvalue = 0;
     t->pev->takedamage = DAMAGE_YES;
     t->pev->solid = SOLID_SLIDEBOX;
-    t->pev->movetype = MOVETYPE_WALK;
+    t->pev->movetype = MOVETYPE_BOUNCE;
     t->pev->avelocity[2] = -10;
 }
