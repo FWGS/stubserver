@@ -124,7 +124,8 @@ qboolean ClientConnect( edict_t *ent, char *name, char *address, char *rej )
 
 void SetAbsBox( edict_t *e )
 {
-
+    VectorAdd( e->v.origin, e->v.maxs, e->v.absmax );
+    VectorAdd( e->v.origin, e->v.mins, e->v.absmin );
 }
 
 void ClientUserInfoChanged( edict_t *client, char *info )
