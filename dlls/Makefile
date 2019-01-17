@@ -1,6 +1,6 @@
 CC=gcc
 LIBNAME=hl.so
-CFLAGS=-shared -w -ggdb
+CFLAGS=-shared -m32 -g -ggdb
 
 all:
 	$(CC) *.c -o $(LIBNAME) $(CFLAGS)
