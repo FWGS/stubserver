@@ -10,7 +10,7 @@ ifeq ($(TARGET_ARCH_ABI),armeabi-v7a-hard)
 LOCAL_MODULE_FILENAME = libserver_hardfp
 endif
 
-LOCAL_CFLAGS += -m32 -g -w
+LOCAL_CFLAGS += -w -ggdb
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/.
 
