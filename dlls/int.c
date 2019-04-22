@@ -123,6 +123,23 @@ qboolean ClientConnect( edict_t *ent, char *name, char *address, char *rej )
     return true;
 }
 
+void ClientDisconnect( edict_t *e )
+{
+	int SayText = com.engfuncs->RegUserMsg( "SayText", -1 );
+	
+	char message[256];
+    	if(e->v.netname)
+		snprintf(message, sizeof(message), "- %s has left the game\n", STRING(e->v.netname));
+
+	com.engfuncs->MessageBegin( MSG_ALL, SayText , NULL, NULL);
+		com.engfuncs->WriteByte( com.engfuncs->IndexOfEdict( e ) );
+		com.engfuncs->WriteString( message );
+	com.engfuncs->MessageEnd();
+
+	e->v.takedamage = DAMAGE_NO;
+	e->v.solid = SOLID_NOT;
+}
+
 void SetAbsBox( edict_t *e )
 {
     VectorAdd( e->v.origin, e->v.maxs, e->v.absmax );
