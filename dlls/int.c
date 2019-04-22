@@ -14,6 +14,7 @@ GNU General Public License for more details.
 */
 
 #include "sdk_common.h"
+#include "client.h"
 #include "mathlib.h"
 common_t com;
 #define EXPORT
@@ -231,7 +232,19 @@ qboolean AddToFullPack( entity_state_t *state, int e, edict_t *ent, edict_t *hos
 
 void ClientCommand( edict_t *cl )
 {
+	const char *cmd = com.engfuncs->Cmd_Argv( 0 );
 
+	if( strcasecmp(cmd, "say") == 0 )
+	{
+		Host_Say(cl);
+	}
+	else
+	{
+		char msg[256];
+		snprintf(msg, sizeof(msg), "Unknown command: %s\n", cmd);
+
+		com.engfuncs->ClientPrintF(cl, PRINT_CONSOLE, msg);
+	}
 }
 
 #define F(x) serverfuncs->x = x

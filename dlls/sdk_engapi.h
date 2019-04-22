@@ -116,7 +116,7 @@ typedef struct engineapi_s
     void *(*FunctionFromName)( char *name );
     char *(*NameForFunction)( void *func );
 
-    void *(*ClientPrintF)( edict_t *e, int type, char *message );
+    void *(*ClientPrintF)( edict_t *e, print_type_t ptype, char *message );
     void *(*ServerPrint)( char *message );
     char *(*Cmd_Args)( void );
     char *(*Cmd_Argv)( int i );

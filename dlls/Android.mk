@@ -14,10 +14,12 @@ LOCAL_CFLAGS += -ggdb
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/.
 
-LOCAL_SRC_FILES := world.c pmove.c \
+LOCAL_SRC_FILES := world.c \
+	   pmove.c \
 	   mathlib.c \
 	   int.c \
 	   player.c \
+	   client.c \
 	   grenade.c
 
 include $(BUILD_SHARED_LIBRARY)
