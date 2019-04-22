@@ -12,9 +12,12 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#include <string.h>
+#include <stdio.h>
 
 #include "sdk_common.h"
 #include "client.h"
+#include "util.h"
 #include "mathlib.h"
 common_t com;
 #define EXPORT
@@ -73,7 +76,51 @@ void ResetGlobalState( void )
 
 void KeyValue( edict_t *ent, keyvalue_t *pkvd )
 {
-    pkvd->handled = true;
+	entvars_t *e = ent->pvPrivateData;
+
+	if(strcasecmp(pkvd->keyname, "origin") == NULL)
+	{
+		read_vec3(ent->v.origin, pkvd->value);
+	}
+	else if(strcasecmp(pkvd->keyname, "angles") == NULL)
+	{
+		read_vec3(ent->v.angles, pkvd->value);
+	}
+	else if(strcasecmp(pkvd->keyname, "model") == NULL)
+	{
+		ent->v.model = MAKE_STRING(pkvd->value);
+		com.engfuncs->SetModel(ent, pkvd->value);
+	}
+	else if (strcasecmp(pkvd->keyname, "renderamt") == NULL)
+	{
+		ent->v.renderamt = atoi(pkvd->value);
+	}
+	else if (strcasecmp(pkvd->keyname, "rendermode") == NULL)
+	{
+		ent->v.rendermode = atoi(pkvd->value);
+	}
+	else if (strcasecmp(pkvd->keyname, "rendercolor") == NULL)
+	{
+		read_vec3(ent->v.rendercolor, pkvd->value);
+	}
+	else if (strcasecmp(pkvd->keyname, "renderfx") == NULL)
+	{
+		ent->v.renderfx = atoi(pkvd->value);
+	}
+	else if (strcasecmp(pkvd->keyname, "targetname") == NULL)
+	{
+		ent->v.targetname = MAKE_STRING(pkvd->value);
+	}
+	else if (strcasecmp(pkvd->keyname, "spawnflags") == NULL)
+	{
+		ent->v.spawnflags = atoi(pkvd->value);
+	}
+	else
+	{
+		//if( e->KeyValue) e->KeyValue(ent->v, pkvd);
+	}
+
+	pkvd->handled = true;
 }
 
 

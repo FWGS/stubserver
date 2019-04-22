@@ -18,6 +18,7 @@ LOCAL_SRC_FILES := world.c \
 	   pmove.c \
 	   mathlib.c \
 	   int.c \
+	   util.c \
 	   player.c \
 	   client.c \
 	   grenade.c
