@@ -286,6 +286,7 @@ EXPORT void GetEntityAPI2( serverfuncs_t *serverfuncs, int *version )
     F(Think);
     F(Touch);
     F(ClientConnect);
+    F(ClientDisconnect);
     F(SetAbsBox);
     F(ClientUserInfoChanged);
     F(ClientPutinServer);
