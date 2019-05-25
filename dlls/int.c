@@ -16,9 +16,11 @@ GNU General Public License for more details.
 #include <stdio.h>
 
 #include "sdk_common.h"
+#include "sdk_baseentity.h"
 #include "client.h"
 #include "util.h"
 #include "mathlib.h"
+
 common_t com;
 #define EXPORT
 

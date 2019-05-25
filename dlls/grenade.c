@@ -1,4 +1,5 @@
 #include "sdk_common.h"
+#include "sdk_baseentity.h"
 #include <stdio.h>
 
 struct grenade
