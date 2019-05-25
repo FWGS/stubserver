@@ -1,5 +1,7 @@
 #include "sdk_common.h"
 #include <stdio.h>
+#include "sdk_baseentity.h"
+
 struct player
 {
     entvars_t *pev;

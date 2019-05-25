@@ -1,5 +1,9 @@
+CC=gcc
+LIBNAME=hl.so
+CFLAGS=-shared -m32 -g -ggdb
+
 all:
-	gcc *.c -o hl.so -m32 -shared -g -w
+	$(CC) *.c -o $(LIBNAME) $(CFLAGS)
 
 clean:
-	rm hl.so
+	rm -f $(LIBNAME)

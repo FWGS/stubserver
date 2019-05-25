@@ -12,9 +12,15 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#include <string.h>
+#include <stdio.h>
 
 #include "sdk_common.h"
+#include "sdk_baseentity.h"
+#include "client.h"
+#include "util.h"
 #include "mathlib.h"
+
 common_t com;
 #define EXPORT
 
@@ -72,7 +78,51 @@ void ResetGlobalState( void )
 
 void KeyValue( edict_t *ent, keyvalue_t *pkvd )
 {
-    pkvd->handled = true;
+	entvars_t *e = ent->pvPrivateData;
+
+	if(strcasecmp(pkvd->keyname, "origin") == NULL)
+	{
+		read_vec3(ent->v.origin, pkvd->value);
+	}
+	else if(strcasecmp(pkvd->keyname, "angles") == NULL)
+	{
+		read_vec3(ent->v.angles, pkvd->value);
+	}
+	else if(strcasecmp(pkvd->keyname, "model") == NULL)
+	{
+		ent->v.model = MAKE_STRING(pkvd->value);
+		com.engfuncs->SetModel(ent, pkvd->value);
+	}
+	else if (strcasecmp(pkvd->keyname, "renderamt") == NULL)
+	{
+		ent->v.renderamt = atoi(pkvd->value);
+	}
+	else if (strcasecmp(pkvd->keyname, "rendermode") == NULL)
+	{
+		ent->v.rendermode = atoi(pkvd->value);
+	}
+	else if (strcasecmp(pkvd->keyname, "rendercolor") == NULL)
+	{
+		read_vec3(ent->v.rendercolor, pkvd->value);
+	}
+	else if (strcasecmp(pkvd->keyname, "renderfx") == NULL)
+	{
+		ent->v.renderfx = atoi(pkvd->value);
+	}
+	else if (strcasecmp(pkvd->keyname, "targetname") == NULL)
+	{
+		ent->v.targetname = MAKE_STRING(pkvd->value);
+	}
+	else if (strcasecmp(pkvd->keyname, "spawnflags") == NULL)
+	{
+		ent->v.spawnflags = atoi(pkvd->value);
+	}
+	else
+	{
+		//if( e->KeyValue) e->KeyValue(ent->v, pkvd);
+	}
+
+	pkvd->handled = true;
 }
 
 
@@ -122,9 +172,27 @@ qboolean ClientConnect( edict_t *ent, char *name, char *address, char *rej )
     return true;
 }
 
+void ClientDisconnect( edict_t *e )
+{
+	int SayText = com.engfuncs->RegUserMsg( "SayText", -1 );
+	
+	char message[256];
+    	if(e->v.netname)
+		snprintf(message, sizeof(message), "- %s has left the game\n", STRING(e->v.netname));
+
+	com.engfuncs->MessageBegin( MSG_ALL, SayText , NULL, NULL);
+		com.engfuncs->WriteByte( com.engfuncs->IndexOfEdict( e ) );
+		com.engfuncs->WriteString( message );
+	com.engfuncs->MessageEnd();
+
+	e->v.takedamage = DAMAGE_NO;
+	e->v.solid = SOLID_NOT;
+}
+
 void SetAbsBox( edict_t *e )
 {
-
+    VectorAdd( e->v.origin, e->v.maxs, e->v.absmax );
+    VectorAdd( e->v.origin, e->v.mins, e->v.absmin );
 }
 
 void ClientUserInfoChanged( edict_t *client, char *info )
@@ -230,7 +298,19 @@ qboolean AddToFullPack( entity_state_t *state, int e, edict_t *ent, edict_t *hos
 
 void ClientCommand( edict_t *cl )
 {
+	const char *cmd = com.engfuncs->Cmd_Argv( 0 );
 
+	if( strcasecmp(cmd, "say") == 0 )
+	{
+		Host_Say(cl);
+	}
+	else
+	{
+		char msg[256];
+		snprintf(msg, sizeof(msg), "Unknown command: %s\n", cmd);
+
+		com.engfuncs->ClientPrintF(cl, PRINT_CONSOLE, msg);
+	}
 }
 
 #define F(x) serverfuncs->x = x
@@ -255,6 +335,7 @@ EXPORT void GetEntityAPI2( serverfuncs_t *serverfuncs, int *version )
     F(Think);
     F(Touch);
     F(ClientConnect);
+    F(ClientDisconnect);
     F(SetAbsBox);
     F(ClientUserInfoChanged);
     F(ClientPutinServer);

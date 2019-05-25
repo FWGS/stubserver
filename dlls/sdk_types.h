@@ -34,5 +34,6 @@ typedef struct traceresult_s traceresult_t;
 typedef enum { false, true } qboolean;
 typedef struct cvar_s cvar_t;
 typedef enum { AT_NOTICE, AT_CONSOLE, AT_AICONSOLE, AT_WARNING, AT_ERROR, AT_LOGGED } alert_type_t;
+typedef enum { PRINT_CONSOLE, PRINT_CENTER, PRINT_CHAT } print_type_t;
 #endif // SDK_TYPES_H
 

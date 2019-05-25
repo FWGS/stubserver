@@ -47,3 +47,19 @@
 #define SOLID_BSP			4
 // xash3d extension
 #define SOLID_CUSTOM		5
+// hud message types
+#define HUD_PRINTNOTIFY 	1
+#define HUD_PRINTCONSOLE 	2
+#define HUD_PRINTTALK 		3
+#define HUD_PRINTCENTER         4
+// message types
+#define MSG_BROADCAST 		0
+#define MSG_ONE 		1
+#define MSG_ALL 		2
+#define MSG_INIT 		3
+#define MSG_PVS 		4
+#define MSG_PAS 		5
+#define MSG_PVS_R 		6
+#define MSG_PAS_R 		7
+#define MSG_ONE_UNRELIABLE 	8
+#define MSG_SPEC 		9
