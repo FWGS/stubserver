@@ -34,19 +34,6 @@ typedef struct
     vec3_t		clip_maxs;
 } hull_t;
 
-typedef struct usercmd_s
-{
-    short		lerp_msec;
-    byte	msec;
-    vec3_t	angles;
-    float	forwardmove, sidemove, upmove;
-    byte		lightlevel;
-    unsigned short	buttons;
-    byte	impulse;
-    byte		weaponselect;
-    int		impact_index;
-    vec3_t		impact_position;
-} usercmd_t;
 
 typedef struct
 {
@@ -239,43 +226,6 @@ typedef struct
     struct pmtrace_s	*(*PM_TraceLineEx)( float *start, float *end, int flags, int usehulll, int (*pfnIgnore)( physent_t *pe ));
     struct msurface_s	*(*PM_TraceSurface)( int ground, float *vstart, float *vend );
 } playermove_t;
-
-typedef struct movevars_s {
-    float	gravity;
-    float	stopspeed;
-    float	maxspeed;
-    float	spectatormaxspeed;
-    float	accelerate;
-    float	airaccelerate;
-    float	wateraccelerate;
-    float	friction;
-    float	edgefriction;
-    float	waterfriction;
-    float	entgravity;
-    float	bounce;
-    float	stepsize;
-    float	maxvelocity;
-    float	zmax;
-    float	waveHeight;
-    qboolean	footsteps;
-    char	skyName[32];
-    float	rollangle;
-    float	rollspeed;
-    float	skycolor_r;
-    float	skycolor_g;
-    float	skycolor_b;
-    float	skyvec_x;
-    float	skyvec_y;
-    float	skyvec_z;
-    // xash3d
-    int	features;		// engine features that shared across network
-    int	fog_settings;	// Global fog settings (packed color+density)
-    float	wateralpha;	// World water alpha 1.0 - solid 0.0 - transparent
-    float	skydir_x;		// skybox rotate direction
-    float	skydir_y;		//
-    float	skydir_z;		//
-    float	skyangle;		// skybox rotate angle
-} movevars_t;
 
 playermove_t	*pmove;
 
