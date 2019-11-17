@@ -1,0 +1,32 @@
+#! /usr/bin/env python
+# encoding: utf-8
+# mittorn, 2018
+
+from waflib import Logs
+import os
+
+top = '.'
+
+def options(opt):
+	pass
+
+def configure(conf):
+	pass
+
+def build(bld):
+	libs = [ 'M' ]
+
+	source = bld.path.parent.ant_glob(['server/*.c', 'common/*.c'])
+
+	includes = ['.',
+		'../common', '../api' ]
+
+	bld.shlib(
+		source   = source,
+		target   = 'server',
+		features = 'c',
+		includes = includes,
+		use      = libs,
+		install_path = bld.env.LIBDIR,
+		subsystem = bld.env.MSVC_SUBSYSTEM
+	)
