@@ -13,6 +13,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
 
+#include "string.h"
 #include "sdk_common.h"
 #include "mathlib.h"
 common_t com;

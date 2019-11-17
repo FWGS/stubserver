@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // mathlib.c -- math primitives
 
 #include <math.h>
+#include <string.h>
 #include "sdk_common.h"
 #include "bspfile.h"
 #include "mathlib.h"

@@ -33,7 +33,9 @@ void worldspawn( entvars_t *vars )
 
 globalvars_t *gpGlobals;
 
+#if 0
 int main()
 {
     printf("%d\n", (int)sizeof(entvars_t));
 }
+#endif

@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "sdk_common.h"
 #include "bspfile.h"
 #include "mathlib.h"
+#include <math.h>
+#include <string.h>
 
 vec3_t vec3_origin;
 

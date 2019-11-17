@@ -3,6 +3,7 @@
 #include "../pahole/client/ref_params.h"
 #include "../pahole/client/cl_entity.h"
 #include "mathlib.h"
+#include "string.h"
 struct cl_enginefuncs_s *pengfuncs;
 
 void Initialize( struct cl_enginefuncs_s *pfuncs, int version )
@@ -192,9 +193,10 @@ void IN_ClearStates( void )
 
 void V_CalcRefdef( struct ref_params_s *rp )
 {
+	struct cl_entity_s *player;
 	pengfuncs->GetViewAngles( rp->viewangles );
 	rp->viewentity = 1;
-	struct cl_entity_s *player = pengfuncs->GetLocalPlayer();
+	player = pengfuncs->GetLocalPlayer();
 	VectorCopy(player->origin, rp->vieworg);
 }
 

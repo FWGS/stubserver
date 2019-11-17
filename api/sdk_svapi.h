@@ -17,7 +17,7 @@ GNU General Public License for more details.
 #include "sdk_types.h"
 typedef struct serverfuncs_s
 {
-  void (*GameInit)();
+  void (*GameInit)( void );
   int (*Spawn)( edict_t *e );
   void (*Think)( edict_t *e );
   void (*Use)( edict_t *used, edict_t *other );
