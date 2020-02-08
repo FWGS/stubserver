@@ -86,8 +86,9 @@ int HUD_Key_Event( int down, int key, const char *binding )
 	return 0;
 }
 
-void HUD_AddEntity( void )
+int HUD_AddEntity( void )
 {
+	return 1;
 }
 
 void HUD_CreateEntities( void )

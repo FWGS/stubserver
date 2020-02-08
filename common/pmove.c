@@ -256,7 +256,7 @@ static pmtrace_t PM_PlayerMove (vec3_t start, vec3_t stop)
 
 void PM_Init (struct playermove_s *ppmove)
 {
-    pmove = ppmove;
+    pmove = (void*) ppmove;
     //PM_InitBoxHull ();
 }
 

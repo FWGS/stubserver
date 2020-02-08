@@ -234,7 +234,7 @@ void ClientCommand( edict_t *cl )
 
 }
 
-#define F(x) serverfuncs->x = x
+#define F(x) serverfuncs->x = (void*)x
 EXPORT void GetEntityAPI2( serverfuncs_t *serverfuncs, int *version )
 {
     *version = 140;
